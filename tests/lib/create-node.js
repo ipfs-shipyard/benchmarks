@@ -25,6 +25,7 @@ const MPLEX = require('libp2p-mplex')
 const TCP = require('libp2p-tcp')
 const SPDY = require('libp2p-spdy')
 const SECIO = require('libp2p-secio')
+const PLAINTEXT = require('libp2p/src/insecure/plaintext')
 const argv = require('minimist')(process.argv.slice(2))
 
 const initRepo = async (path) => {
@@ -54,6 +55,8 @@ const parseParams = (options) => {
   }
   if (argv.e === 'secio') {
     options.libp2p.modules.connEncryption.push(SECIO)
+  } else {
+    options.libp2p.modules.connEncryption.push(PLAINTEXT)
   }
 }
 const CreateNodeJs = async (opt, IPFS, count) => {
@@ -68,17 +71,8 @@ const CreateNodeJs = async (opt, IPFS, count) => {
   }
   const newOptions = { ...options, ...opt }
   parseParams(newOptions)
-  const node = new IPFS(newOptions)
-  node.on('ready', () => {
-    console.log('Node ready')
-  })
-  node.on('error', (err) => {
-    console.error(err)
-  })
-  node.on('stop', () => {
-    console.log('Node stopped')
-  })
-  await once(node, 'ready')
+  const node = await IPFS.create(newOptions)
+  console.log('Node ready')
   return node
 }
 

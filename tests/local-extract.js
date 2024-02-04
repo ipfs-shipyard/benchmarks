@@ -22,18 +22,13 @@ async function localExtract (peerArray, name, warmup, fileSet, version) {
   const filePath = await file(fileSet)
   const fileStream = fs.createReadStream(filePath)
   const peer = peerArray[0]
-  const inserted = await peer.add(fileStream)
-  const start = process.hrtime()
-  let stream = peer.catReadableStream(inserted[0].hash)
-  // endof steam
-  stream.resume()
+  let end
+  for await (const { cid } of peer.add(fileStream)) {
+    const start = process.hrtime()
+    for await (const chunk of peer.cat(cid)) { }
+    end = process.hrtime(start)
+  }
 
-  // we cannot use end-of-stream/pump for some reason here
-  // investigate.
-  // https://github.com/ipfs/js-ipfs/issues/1774
-  await once(stream, 'end')
-
-  const end = process.hrtime(start)
   return build({
     name: 'localExtract',
     warmup: warmup,

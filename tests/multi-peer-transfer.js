@@ -31,23 +31,24 @@ const multiPeerTransfer = async (node, name, warmup, fileSet, version) => {
   const peerBId = await peerB.id()
   const peerCId = await peerC.id()
   const peerDId = await peerD.id()
-  const inserted = await peerA.add(fileStream)
-  await peerB.add(fileStream)
-  await peerC.add(fileStream)
-  await peerD.add(fileStream)
-  peerE.swarm.connect(peerAId.addresses[0])
-  peerE.swarm.connect(peerBId.addresses[0])
-  peerE.swarm.connect(peerCId.addresses[0])
-  peerE.swarm.connect(peerDId.addresses[0])
-  const start = process.hrtime()
-  let stream = peerE.catReadableStream(inserted[0].hash)
-  // endof steam
-  stream.resume()
+  let cid
+  for await (const { cid: _cid } of peerA.add(fileStream)) {
+    cid = _cid
+  }
+  for await (const _ of peerB.add(fileStream)) { }
+  for await (const _ of peerC.add(fileStream)) { }
+  for await (const _ of peerD.add(fileStream)) { }
 
-  // we cannot use end-of-stream/pump for some reason here
-  // investigate.
-  // https://github.com/ipfs/js-ipfs/issues/1774
-  await once(stream, 'end')
+  await Promise.all([
+    peerE.swarm.connect(peerAId.addresses[0]),
+    peerE.swarm.connect(peerBId.addresses[0]),
+    peerE.swarm.connect(peerCId.addresses[0]),
+    peerE.swarm.connect(peerDId.addresses[0])
+  ])
+
+  const start = process.hrtime()
+  for await (const _ of peerE.cat(cid)) { }
+
   const end = process.hrtime(start)
 
   return build({

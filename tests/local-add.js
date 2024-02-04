@@ -25,7 +25,8 @@ async function unixFsAdd (peerArray, name, warmup, fileSet, version) {
   const start = process.hrtime()
   const peer = peerArray[0]
   // output file and dashboard name will match strategy.  default is balanced
-  await peer.add(fileStream, { strategy: strategy })
+  for await (const result of peer.add(fileStream, { strategy: strategy })) { }
+
   const end = process.hrtime(start)
   return build({
     name: name,

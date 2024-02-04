@@ -26,18 +26,13 @@ const localTransfer = async (peerArray, name, warmup, fileSet, version) => {
   const peerB = peerArray[1]
   const peerAId = await peerA.id()
   peerB.swarm.connect(peerAId.addresses[0])
-  const inserted = await peerA.add(fileStream)
-  const start = process.hrtime()
-  let stream = peerB.catReadableStream(inserted[0].hash)
-  // endof steam
-  stream.resume()
+  let end
+  for await (const { cid } of peerA.add(fileStream)) {
+    const start = process.hrtime()
+    for await (const chunk of peerB.cat(cid)) { }
+    end = process.hrtime(start)
+  }
 
-  // we cannot use end-of-stream/pump for some reason here
-  // investigate.
-  // https://github.com/ipfs/js-ipfs/issues/1774
-  await once(stream, 'end')
-
-  const end = process.hrtime(start)
   return build({
     name: name,
     warmup: warmup,
