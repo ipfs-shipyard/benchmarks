@@ -12,10 +12,10 @@ const { file } = require('./lib/fixtures')
  * @param {string} name - Name of the test used as sending results to the file with same name and data point in dashboard.
  * @param {boolean} warmup - Not implemented.
  * @param {string} fileSet - Describes file or list of files used for the test.
- * @param {string} version - Version of IPFS used in benchmark.
+ * @param {Object} meta - Metadata fields to return with result (eg. version, target)
  * @return {Promise<Object>} The data from the benchamrk
  */
-async function addMultiKbBrowser (node, name, warmup, fileSet, version) {
+async function addMultiKbBrowser (node, name, warmup, fileSet, meta) {
   const filePath = await file(fileSet)
   const page = node[0].page
   await page.reload()
@@ -29,7 +29,7 @@ async function addMultiKbBrowser (node, name, warmup, fileSet, version) {
     name: name,
     warmup: 'off',
     file: filePath,
-    meta: { version: version },
+    meta: meta,
     description: 'Add many files (local) js0 -> js0',
     file_set: fileSet,
     duration: { s: parseInt(timeS.split(':')[1]),

@@ -4,7 +4,7 @@ const { build } = require('./schema/results')
 const run = require('./lib/runner')
 const NodeFactory = require('./lib/node-factory')
 
-async function initializeNodeHttp (node, name, warmup, fileSet, version) {
+async function initializeNodeHttp (node, name, warmup, fileSet, meta) {
   const start = process.hrtime()
   const nodeFactory = new NodeFactory()
   await nodeFactory.add('http', {
@@ -24,7 +24,7 @@ async function initializeNodeHttp (node, name, warmup, fileSet, version) {
     name: name,
     wamrup: warmup,
     file: '',
-    meta: { version: version },
+    meta: meta,
     description: 'Initialize node without pre-generated key',
     file_set: '',
     duration: { s: end[0],

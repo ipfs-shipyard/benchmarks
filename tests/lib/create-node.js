@@ -107,10 +107,12 @@ const CreateGo = async (opt, IPFS, count = 0) => {
   await fsMakeDir(peerDir, { recursive: true })
   await initRepo(peerDir)
   await fsWriteFile(`${peerDir}/config`, JSON.stringify(peerConf))
-  let peer = spawn('ipfs', ['daemon'], { env: Object.assign(process.env, { IPFS_PATH: peerDir }) })
+  let peer = spawn('/home/ubuntu/ipfs/go-ipfs/cmd/ipfs/ipfs', ['daemon'], { env: Object.assign(process.env, { IPFS_PATH: peerDir }) })
   peer.version = function () { return '1' }
   peer.addresses = ''
   peer.stdout.on('data', (data) => {
+    process.stdout.write('go-ipfs: ')
+    process.stdout.write(data)
     let version = {}
     const addresses = []
     if (data.includes('Swarm announcing')) {
@@ -136,7 +138,7 @@ const CreateGo = async (opt, IPFS, count = 0) => {
     }
   })
   peer.stderr.on('data', (data) => {
-    console.error(`${data}`)
+    console.error(`go-ipfs: ${data}`)
   })
   peer.on('close', (code, signal) => {
     console.error(`Daemon exited with code: ${code}`)

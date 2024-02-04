@@ -14,10 +14,10 @@ const { description, strategy } = require('./config').parseParams()
  * @param {string} name - Name of the test used as sending results to the file with same name and data point in dashboard.
  * @param {boolean} warmup - Not implemented.
  * @param {string} fileSet - Describes file or list of files used for the test.
- * @param {string} version - Version of IPFS used in benchmark.
+ * @param {Object} meta - Metadata fields to return with result (eg. version, target)
  * @return {Promise<Object>} The data from the benchamrk
  */
-async function unixFsAddBrowser (browser, name, warmup, fileSet, version) {
+async function unixFsAddBrowser (browser, name, warmup, fileSet, meta) {
   console.log(` Adding files using strategy ${strategy}`)
   const filePath = await file(fileSet)
   const page = browser[0].page
@@ -32,7 +32,7 @@ async function unixFsAddBrowser (browser, name, warmup, fileSet, version) {
     name: name,
     warmup: 'off',
     file: filePath,
-    meta: { version: version },
+    meta: meta,
     description: `Add file ${description} js0 -> js0`,
     file_set: fileSet,
     duration: { s: parseInt(timeS.split(':')[1]),

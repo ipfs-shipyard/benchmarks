@@ -12,7 +12,7 @@ const conf = { tmpPath: os.tmpdir() }
 const { description } = require('./config').parseParams()
 const argv = require('minimist')(process.argv.slice(2))
 
-async function extractGo2Js (ipfs, name, warmup, fileSet, version) {
+async function extractGo2Js (ipfs, name, warmup, fileSet, meta) {
   // Runner rtunrs the NodeJS ipfs but we need to create the Go ipfs
   const nodeFactory = new NodeFactory()
   try {
@@ -28,7 +28,7 @@ async function extractGo2Js (ipfs, name, warmup, fileSet, version) {
   // output file and dashboard name will match trategy.  default is balanced
   name = protocal === 'ws' ? `${name}Ws` : name
   console.log(peerId)
-  let command = `export IPFS_PATH=${conf.tmpPath}/ipfs0 && ipfs swarm connect ${peerId.addresses[0]} > /dev/null`
+  let command = `export IPFS_PATH=${conf.tmpPath}/ipfs0 && /home/ubuntu/ipfs/go-ipfs/cmd/ipfs/ipfs swarm connect ${peerId.addresses[0]} > /dev/null`
   try {
     await execute(command)
   } catch (e) {
@@ -57,7 +57,7 @@ async function extractGo2Js (ipfs, name, warmup, fileSet, version) {
     name: name,
     warmup: warmup,
     file: filePath,
-    meta: { version: version },
+    meta: meta,
     description: `Cat file ${description}`,
     file_set: fileSet,
     duration: { s: end[0],

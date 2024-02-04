@@ -17,11 +17,11 @@ const conf = { tmpPath: os.tmpdir() }
  * @param {string} name - Name of the test used as sending results to the file with same name and data point in dashboard.
  * @param {boolean} warmup - Not implemented.
  * @param {string} fileSet - Describes file or list of files used for the test.
- * @param {string} version - Version of IPFS used in benchmark.
+ * @param {Object} meta - Metadata fields to return with result (eg. version, target)
  * @return {Promise<Object>} The data from the benchamrk
  */
 
-const unixFsAddGo = async (peerArray, name, warmup, fileSet, version) => {
+const unixFsAddGo = async (peerArray, name, warmup, fileSet, meta) => {
   const filePath = await file(fileSet)
   const start = process.hrtime()
   let command = `export IPFS_PATH=${conf.tmpPath}/ipfs0 && ipfs add ${filePath} > /dev/null`
@@ -32,7 +32,7 @@ const unixFsAddGo = async (peerArray, name, warmup, fileSet, version) => {
     warmup: warmup,
     file_set: fileSet,
     file: filePath,
-    meta: { version: version, project: 'go-ipfs' },
+    meta: { ...meta, project: 'go-ipfs' },
     description: 'Add files (balanced). go0 -> go0',
     duration: {
       s: end[0],

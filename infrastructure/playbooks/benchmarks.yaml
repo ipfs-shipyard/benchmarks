@@ -4,6 +4,9 @@
   vars:
     node_version: 10.13.0
   tasks:
+    - import_role:
+        name: fubarhouse.golang
+      become: yes
     - name: Update repositories cache and install required packages
       become: yes
       apt:
@@ -56,10 +59,12 @@
         rm go-ipfs_{{go_ipfs_version}}_linux-386.tar.gz && \
         rm -Rf go-ipfs && \
         chmod +x /usr/local/bin/ipfs_{{go_ipfs_version}} && \
-        rm /usr/local/bin/ipfs && \
+        rm -Rf /usr/local/bin/ipfs && \
         ln -s /usr/local/bin/ipfs_{{go_ipfs_version}} /usr/local/bin/ipfs
       args:
-        creates: /usr/local/bin/ipfs_{{go_ipfs_version}}
+        creates:
+          - /usr/local/bin/ipfs_{{go_ipfs_version}}
+          - /usr/local/bin/ipfs
         warn: false
     - file:
         path: ~/ipfs
@@ -79,4 +84,4 @@
     - name: generate test files
       shell: /bin/bash -c "source ~/.nvm/nvm.sh && cd ~/ipfs/tests && npm run generateFiles"
     - name: build-browser
-      shell: /bin/bash -c "source ~/.nvm/nvm.sh && cd ~/ipfs/tests && npm run build-browser"
+      shell: /bin/bash -c "source ~/.nvm/nvm.sh && cd ~/ipfs/tests && ./getJsIpfs.sh .. && npm run build-browser"

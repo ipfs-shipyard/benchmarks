@@ -18,7 +18,7 @@ const configBenchmarks = require('./lib/configBenchmarks')
 const inventoryPath = process.env.INVENTORY || path.join(__dirname, '../infrastructure/inventory/inventory.yaml')
 const playbookPath = path.join(__dirname, '../infrastructure/playbooks/benchmarks.yaml')
 const HOME = process.env.HOME || process.env.USERPROFILE
-const keyfile = path.join(HOME, '.ssh', 'id_rsa')
+const keyfile = process.env.BENCHMARK_KEY || path.join(HOME, '.ssh', 'id_rsa')
 const memorySuffix = '_memory'
 const cpuSuffix = '_cpu'
 const ipfsAddress = process.env.IPFS_ADDRESS || '/dnsaddr/cluster.ipfs.io'
@@ -29,6 +29,7 @@ const logDir = `${os.tmpdir()}/${now}`
 const logFile = `${logDir}/stdout.log`
 const logLevel = process.env.LOGLEVEL || 'info'
 const hostname = process.env.HOSTNAME || 'localhost'
+const benchmarkUser = process.env.BENCHMARK_USER || process.env.USER || 'ubuntu'
 
 mkDir(`${logDir}`, { recursive: true })
 
@@ -78,7 +79,8 @@ const tests = configBenchmarks.constructTests(loc, runClinic)
 
 const config = {
   provison: {
-    command: `ansible-playbook -i ${inventoryPath} --key-file ${keyfile} ${playbookPath}`
+    command: `ansible-playbook -i ${inventoryPath} --key-file ${keyfile} ` +
+      `--user ${benchmarkUser} ${playbookPath}`
   },
   log: pino,
   stage: process.env.STAGE || 'local',
@@ -170,8 +172,8 @@ const config = {
   benchmarks: {
     clinic: runClinic,
     host: getBenchmarkHostname(),
-    user: process.env.BENCHMARK_USER || 'elexy',
-    key: process.env.BENCHMARK_KEY || keyfile,
+    user: benchmarkUser,
+    key: keyfile,
     path: path.join(__dirname, '../tests'),
     remotePath: configBenchmarks.remoteTestsPath,
     tests: tests,

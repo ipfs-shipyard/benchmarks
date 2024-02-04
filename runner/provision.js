@@ -45,8 +45,13 @@ const checkHash = async (hashPath) => {
 
 const cloneIpfsRemote = async (commit) => {
   try {
-    let out = await remote.run(`${config.benchmarks.remotePath}getIpfs.sh ${config.ipfs.path} ${commit || ''}`)
-    config.log.info(out)
+    // FIXME: Switch based on js-minion/go-minion/etc.
+    // let jsOut = await remote.run(`${config.benchmarks.remotePath}getJsIpfs.sh ${config.ipfs.path} ${commit || ''}`)
+    let jsOut = await remote.run(`${config.benchmarks.remotePath}getJsIpfs.sh ${config.ipfs.path}`)
+    config.log.info(jsOut)
+    // let goOut = await remote.run(`${config.benchmarks.remotePath}getGoIpfs.sh ${config.ipfs.path} ${commit || ''}`)
+    let goOut = await remote.run(`${config.benchmarks.remotePath}getGoIpfs.sh ${config.ipfs.path}`)
+    config.log.info(goOut)
     return
   } catch (e) {
     config.log.error(e)

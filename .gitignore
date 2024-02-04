@@ -36,3 +36,8 @@ tests/browser/.env.production.local
 tests/browser/npm-debug.log*
 tests/browser/yarn-debug.log*
 tests/browser/yarn-error.log*
+
+# Environment settings
+.env*
+
+

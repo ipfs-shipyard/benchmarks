@@ -27,7 +27,9 @@
     name: ansible
 - name: install ansible modules
   become: no
-  shell: ansible-galaxy install geerlingguy.nodejs
+  shell: >
+    ansible-galaxy install geerlingguy.nodejs && \
+    ansible-galaxy install fubarhouse.golang
 - name: install ipfs-cluster-ctl
   shell: |
     wget https://dist.ipfs.io/ipfs-cluster-ctl/v0.7.0/ipfs-cluster-ctl_v0.7.0_linux-amd64.tar.gz

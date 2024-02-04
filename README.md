@@ -130,7 +130,7 @@ Use env variable `VERIFYOFF=true` to skip the pre-generation of test files.
 Inside the `benchmarks/tests` dir is a script to pull down master branch and install:
 
 ```bash
-> ./getIpfs.sh ../
+> ./getJsIpfs.sh ../
 ```
 
 Directory structure now :

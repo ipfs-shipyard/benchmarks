@@ -63,6 +63,7 @@ const run = async (params) => {
       await provision.ensure(params.commit)
     } catch (e) {
       config.log.error(e)
+      throw (e)
     }
   }
   let benchmarks
@@ -75,14 +76,14 @@ const run = async (params) => {
       config.log.error(`no valid benchmarks found in ${testsJson}`)
     }
   } else {
-    config.log.info('Running ALL default benchmarks')
-    benchmarks = config.benchmarks.tests
+    config.log.info('Running ALL default benchmarks for', params.target)
+    benchmarks = configBenchmarks.constructTests(config.stage, params.clinic.enabled, null, params.target)
   }
   for (let test of benchmarks) {
     // first run the benchmark straight up
     try {
       await mkDir(`${targetDir}/${test.name}`, { recursive: true })
-      let arrResult = await runCommand(test.benchmark, test.name)
+      let arrResult = await runCommand(test.benchmark + ` --target=${params.target}`, test.name)
       config.log.debug(`Writing results ${targetDir}/${test.name}/results.json`)
       await writeFile(`${targetDir}/${test.name}/results.json`, JSON.stringify(arrResult, null, 2))
       if (arrResult.length) {

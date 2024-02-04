@@ -4,7 +4,7 @@ const config = require('../config')
 const clean = require('./clean')
 const { store } = require('./output')
 const genTests = require('../util/create-files')
-const { name } = require('../config').parseParams()
+const { name, target } = require('../config').parseParams()
 async function runner (test, nodeCount = 2, type = 'nodejs', options) {
   if (!config.verify) {
     await genTests()
@@ -20,13 +20,17 @@ async function runner (test, nodeCount = 2, type = 'nodejs', options) {
     }
   }
   const version = await node[0].version()
+  const meta = {
+    version,
+    target
+  }
   try {
     for (let subTest of config.test[test.name]) {
       if (config.fileSetParam) {
-        arrResults.push(await test(node, `${test.name}${name}`, subTest.warmup.toLowerCase(), config.fileSetParam, version))
+        arrResults.push(await test(node, `${test.name}${name}`, subTest.warmup.toLowerCase(), config.fileSetParam, meta))
       } else {
         for (let fileSet of subTest.fileSet) {
-          arrResults.push(await test(node, `${test.name}${name}`, subTest.warmup.toLowerCase(), fileSet, version))
+          arrResults.push(await test(node, `${test.name}${name}`, subTest.warmup.toLowerCase(), fileSet, meta))
         }
       }
     }

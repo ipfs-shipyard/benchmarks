@@ -3,7 +3,7 @@
 const getResponse = {
   $id: 'getResponse',
   200: {
-    description: 'Succesful response',
+    description: 'Successful response',
     type: 'array',
     items: {
       type: 'object',

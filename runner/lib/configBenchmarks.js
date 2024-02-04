@@ -15,115 +15,153 @@ const remotePreNode = `killall node 2>/dev/null; killall ipfs 2>/dev/null; sourc
 const testAbstracts = [
   {
     name: 'localTransfer_tcp_mplex',
-    file: 'local-transfer.js -t tcp -m mplex'
+    file: 'local-transfer.js -t tcp -m mplex',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'localTransfer_ws_mplex',
-    file: 'local-transfer.js -t ws -m mplex'
+    file: 'local-transfer.js -t ws -m mplex',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'localTransfer_ws_mplex',
-    file: 'local-transfer.js -t ws -m mplex'
+    file: 'local-transfer.js -t ws -m mplex',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'localTransfer_tcp_mplex_secio',
-    file: 'local-transfer.js -t tcp -m mplex -e secio'
+    file: 'local-transfer.js -t tcp -m mplex -e secio',
+    defaultFor: [ 'js-minion', 'js-minion-lite' ]
   },
   {
     name: 'localTransfer_ws_mplex_secio',
-    file: 'local-transfer.js -t ws -m mplex -e secio'
+    file: 'local-transfer.js -t ws -m mplex -e secio',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'localTransfer_tcp_spdy',
-    file: 'local-transfer.js -t tcp -m spdy'
+    file: 'local-transfer.js -t tcp -m spdy',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'localTransfer_ws_spdy',
-    file: 'local-transfer.js -t ws -m spdy'
+    file: 'local-transfer.js -t ws -m spdy',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'localTransfer_tcp_spdy_secio',
-    file: 'local-transfer.js -t tcp -m spdy -e secio'
+    file: 'local-transfer.js -t tcp -m spdy -e secio',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'localTransfer_ws_spdy_secio',
-    file: 'local-transfer.js -t ws -m spdy -e secio'
+    file: 'local-transfer.js -t ws -m spdy -e secio',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'unixFsAdd_balanced',
-    file: 'local-add.js -s balanced'
+    file: 'local-add.js -s balanced',
+    defaultFor: [ 'js-minion', 'js-minion-lite' ]
   },
   {
     name: 'unixFsAdd_trickle',
-    file: 'local-add.js -s trickle'
+    file: 'local-add.js -s trickle',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'localExtract',
-    file: 'local-extract.js'
+    file: 'local-extract.js',
+    defaultFor: [ 'js-minion', 'js-minion-lite' ]
   },
   {
     name: 'multiPeerTransfer_tcp_mplex',
-    file: 'multi-peer-transfer.js -t tcp -m mplex'
+    file: 'multi-peer-transfer.js -t tcp -m mplex',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'multiPeerTransfer_ws_mplex',
-    file: 'multi-peer-transfer.js -t ws -m mplex'
+    file: 'multi-peer-transfer.js -t ws -m mplex',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'multiPeerTransfer_tcp_mplex_secio',
-    file: 'multi-peer-transfer.js -t tcp -m mplex -e secio'
+    file: 'multi-peer-transfer.js -t tcp -m mplex -e secio',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'multiPeerTransfer_ws_mplex_secio',
-    file: 'multi-peer-transfer.js -t ws -m mplex -e secio'
+    file: 'multi-peer-transfer.js -t ws -m mplex -e secio',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'multiPeerTransfer_tcp_spdy',
-    file: 'multi-peer-transfer.js -t tcp -m spdy'
+    file: 'multi-peer-transfer.js -t tcp -m spdy',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'multiPeerTransfer_ws_spdy',
-    file: 'multi-peer-transfer.js -t ws -m spdy'
+    file: 'multi-peer-transfer.js -t ws -m spdy',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'multiPeerTransfer_tcp_spdy_secio',
-    file: 'multi-peer-transfer.js -t tcp -m spdy -e secio'
+    file: 'multi-peer-transfer.js -t tcp -m spdy -e secio',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'multiPeerTransfer_ws_spdy_secio',
-    file: 'multi-peer-transfer.js -t ws -m spdy -e secio'
+    file: 'multi-peer-transfer.js -t ws -m spdy -e secio',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'addMultiKb_balanced',
-    file: 'add-multi-kb -s balanced'
+    file: 'add-multi-kb -s balanced',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'addMultiKb_trickle',
-    file: 'add-multi-kb.js -s trickle'
+    file: 'add-multi-kb.js -s trickle',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'initializeNodeBrowser',
-    file: 'init-node.browser.js'
+    file: 'init-node.browser.js',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'unixFsAddBrowser_balanced',
-    file: 'local-add.browser.js -s balanced'
+    file: 'local-add.browser.js -s balanced',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'addMultiKbBrowser_balanced',
-    file: 'add-multi-kb.browser.js -s balanced'
+    file: 'add-multi-kb.browser.js -s balanced',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'unixFsAddGo_balanced',
-    file: 'local-add.go.js -s balanced'
+    file: 'local-add.go.js -s balanced',
+    defaultFor: [ 'js-minion', 'go-minion' ]
   },
   {
     name: 'peerTransferBrowser_ws_mplex',
-    file: 'peer-transfer.browser.js -t ws -m mplex'
+    file: 'peer-transfer.browser.js -t ws -m mplex',
+    defaultFor: [ 'js-minion' ]
   },
   {
     name: 'pubsubMessage',
-    file: 'pubsub-message.js'
+    file: 'pubsub-message.js',
+    defaultFor: [ 'js-minion' ]
+  },
+  {
+    name: 'extractJs2Go_tcp_mplex_secio',
+    file: 'extract-js2.go.js -t tcp -m mplex -e secio',
+    defaultFor: [ 'go-minion' ]
+  },
+  {
+    name: 'extractGo2Js_tcp_mplex_secio',
+    file: 'extract-go2.js -t tcp -m mplex -e secio',
+    defaultFor: [ 'go-minion' ]
   }
 ]
 
@@ -170,13 +208,19 @@ const getClinicCommands = (test, operation, loc) => {
   }
 }
 
-const constructTests = (loc, doClinic, testNames) => {
+const constructTests = (loc, doClinic, testNames, target) => {
   let tests = []
   let testItems = []
   if (testNames && testNames.length > 0) {
     testItems = testNames
   } else {
-    testItems = testAbstracts
+    if (target) {
+      testItems = testAbstracts.filter(
+        testAbstract => testAbstract.defaultFor.includes(target)
+      )
+    } else {
+      testItems = testAbstracts
+    }
   }
   for (let testAbstract of testItems) {
     if (typeof testAbstract === 'string') {

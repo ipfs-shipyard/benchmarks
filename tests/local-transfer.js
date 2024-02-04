@@ -16,10 +16,10 @@ const { description } = require('./config').parseParams()
  * @param {string} name - Name of the test used as sending results to the file with same name and data point in dashboard.
  * @param {boolean} warmup - Not implemented.
  * @param {string} fileSet - Describes file or list of files used for the test.
- * @param {string} version - Version of IPFS used in benchmark.
+ * @param {Object} meta - Metadata fields to return with result (eg. version, target)
  * @return {Promise<Object>} The data from the benchamrk
  */
-const localTransfer = async (peerArray, name, warmup, fileSet, version) => {
+const localTransfer = async (peerArray, name, warmup, fileSet, meta) => {
   const filePath = await file(fileSet)
   const fileStream = fs.createReadStream(filePath)
   const peerA = peerArray[0]
@@ -43,7 +43,7 @@ const localTransfer = async (peerArray, name, warmup, fileSet, version) => {
     warmup: warmup,
     file_set: fileSet,
     file: filePath,
-    meta: { version: version },
+    meta: meta,
     description: `Cat file ${description} js0 -> js1`,
     duration: {
       s: end[0],

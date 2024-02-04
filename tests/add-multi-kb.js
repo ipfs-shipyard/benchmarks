@@ -15,10 +15,10 @@ const { description, strategy } = require('./config').parseParams()
  * @param {string} name - Name of the test used as sending results to the file with same name and data point in dashboard.
  * @param {boolean} warmup - Not implemented.
  * @param {string} fileSet - Describes file or list of files used for the test.
- * @param {string} version - Version of IPFS used in benchmark.
+ * @param {Object} meta - Metadata fields to return with result (eg. version, target)
  * @return {Promise<Object>} The data from the benchamrk
  */
-async function addMultiKb (node, name, warmup, fileSet, version) {
+async function addMultiKb (node, name, warmup, fileSet, meta) {
   const fileArr = await file(fileSet)
   console.log(` Adding files using strategy ${strategy}`)
   const start = process.hrtime()
@@ -38,7 +38,7 @@ async function addMultiKb (node, name, warmup, fileSet, version) {
     name: name,
     warmup: warmup,
     file: fileSet,
-    meta: { version: version },
+    meta: meta,
     description: `Add many small files ${description} js0 -> js0`,
     file_set: fileSet,
     duration: { s: end[0],

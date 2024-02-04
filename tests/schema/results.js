@@ -62,6 +62,7 @@ const schema = FluentSchema()
         .default('js-ipfs'))
       .prop('commit')
       .prop('version')
+      .prop('target')
   )
   .prop('meta')
   .ref('#definitions/meta')
@@ -77,7 +78,8 @@ const resultsDTO = {
   'meta': {
     'project': 'js-ipfs',
     'commit': 'TBD',
-    'version': 'version of js-ipfs'
+    'version': 'version of js-ifps',
+    'target': ''
   },
   'duration': {
     's': 0,

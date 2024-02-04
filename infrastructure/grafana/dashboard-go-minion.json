@@ -16,8 +16,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 8,
-  "iteration": 1549558529330,
+  "id": 2,
+  "iteration": 1564711919563,
   "links": [],
   "panels": [
     {
@@ -33,7 +33,7 @@
         "x": 0,
         "y": 0
       },
-      "id": 4,
+      "id": 6,
       "legend": {
         "alignAsTable": true,
         "avg": true,
@@ -51,11 +51,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "connected",
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "repeat": null,
       "repeatDirection": "h",
       "seriesOverrides": [
         {}
@@ -131,14 +131,21 @@
               "key": "tag",
               "operator": "=~",
               "value": "/^$tag$/"
+            },
+            {
+              "condition": "AND",
+              "key": "target",
+              "operator": "=",
+              "value": "go-minion"
             }
           ]
         }
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
-      "title": "Benchmarks",
+      "title": "Benchmarks - go-minion",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -177,7 +184,6 @@
     },
     {
       "columns": [],
-      "datasource": null,
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
@@ -187,6 +193,7 @@
       },
       "id": 2,
       "links": [],
+      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -293,7 +300,7 @@
       "type": "table"
     }
   ],
-  "schemaVersion": 16,
+  "schemaVersion": 18,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -367,13 +374,13 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
           "text": "All",
           "value": [
             "$__all"
           ]
         },
         "datasource": "influxdb",
+        "definition": "",
         "hide": 0,
         "includeAll": true,
         "label": null,
@@ -398,6 +405,7 @@
           "value": "off"
         },
         "datasource": "influxdb",
+        "definition": "",
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -422,6 +430,7 @@
           "value": "OneMBFile"
         },
         "datasource": "influxdb",
+        "definition": "",
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -445,11 +454,10 @@
           "value": ""
         },
         "hide": 0,
-        "label": "js-ipfs commit SHA",
+        "label": "go-ipfs commit SHA",
         "name": "commit",
         "options": [
           {
-            "selected": true,
             "text": "",
             "value": ""
           }
@@ -467,6 +475,7 @@
           ]
         },
         "datasource": "influxdb",
+        "definition": "",
         "hide": 0,
         "includeAll": true,
         "label": null,
@@ -516,7 +525,7 @@
     ]
   },
   "timezone": "utc",
-  "title": "IPFS benchmarks",
-  "uid": "HCaaM78mk",
-  "version": 2
+  "title": "IPFS benchmarks - go-minion",
+  "uid": "GtGqynvZz",
+  "version": 6
 }

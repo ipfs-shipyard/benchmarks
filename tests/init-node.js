@@ -13,11 +13,11 @@ const NodeFactory = require('./lib/node-factory')
  * @param {string} name - Name of the test used as sending results to the file with same name and data point in dashboard.
  * @param {boolean} warmup - Not implemented.
  * @param {string} fileSet - Describes file or list of files used for the test.
- * @param {string} version - Version of IPFS used in benchmark.
+ * @param {Object} meta - Metadata fields to return with result (eg. version, target)
  * @return {Promise<Object>} The data from the benchamrk
  */
 
-async function initializeNode (node, name, warmup, fileSet, version) {
+async function initializeNode (node, name, warmup, fileSet, meta) {
   const start = process.hrtime()
   const nodeFactory = new NodeFactory()
   await nodeFactory.add('nodejs', {
@@ -37,7 +37,7 @@ async function initializeNode (node, name, warmup, fileSet, version) {
     name: name,
     wamrup: warmup,
     file: 'none',
-    meta: { version: version },
+    meta: meta,
     description: 'Node initialization (local) js0 -> js0',
     file_set: 'none',
     duration: { s: end[0],

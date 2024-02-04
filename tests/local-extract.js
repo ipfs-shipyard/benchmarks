@@ -15,10 +15,10 @@ const { once } = require('stream-iterators-utils')
  * @param {string} name - Name of the test used as sending results to the file with same name and data point in dashboard.
  * @param {boolean} warmup - Not implemented.
  * @param {string} fileSet - Describes file or list of files used for the test.
- * @param {string} version - Version of IPFS used in benchmark.
+ * @param {Object} meta - Metadata fields to return with result (eg. version, target)
  * @return {Promise<Object>} The data from the benchamrk
  */
-async function localExtract (peerArray, name, warmup, fileSet, version) {
+async function localExtract (peerArray, name, warmup, fileSet, meta) {
   const filePath = await file(fileSet)
   const fileStream = fs.createReadStream(filePath)
   const peer = peerArray[0]
@@ -38,7 +38,7 @@ async function localExtract (peerArray, name, warmup, fileSet, version) {
     name: 'localExtract',
     warmup: warmup,
     file: filePath,
-    meta: { version: version },
+    meta: meta,
     description: 'Cat file (local) js0 -> js0',
     file_set: fileSet,
     duration: { s: end[0],

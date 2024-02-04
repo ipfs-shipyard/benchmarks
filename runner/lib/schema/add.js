@@ -6,7 +6,12 @@ const addBody = {
   properties: {
     commit: {
       type: 'string',
-      description: 'Commit of the js-IPFS library'
+      description: 'Commit to test against'
+    },
+    target: {
+      type: 'string',
+      description: 'currently js-minion or go-minion',
+      enum: ['js-minion', 'js-minion-lite', 'go-minion']
     },
     nightly: {
       type: 'boolean',
@@ -42,7 +47,7 @@ const addBody = {
       }
     }
   },
-  required: ['commit']
+  required: ['commit', 'target']
 }
 
 const addResponse = {

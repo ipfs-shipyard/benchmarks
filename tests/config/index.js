@@ -3,7 +3,14 @@ const uuidv1 = require('uuid/v1')
 const guid = process.env.GUID || uuidv1()
 const fileSetParam = (process.env.FILESET && process.env.FILESET.toLowerCase()) || false
 const verify = process.env.VERIFYOFF && process.env.VERIFYOFF.toLowerCase() === 'true'
-const argv = require('minimist')(process.argv.slice(2))
+const argv = require('minimist')(process.argv.slice(2), {
+  alias: {
+    s: 'strategy',
+    t: 'transport',
+    m: 'muxer',
+    e: 'encryption'
+  }
+})
 
 const tests = { 'unixFsAdd': [{
   'warmup': 'Off',
@@ -52,8 +59,8 @@ const parseParams = () => {
   let name = '_'
   let desc = '('
   let strategy = 'balanced'
-  if (argv.s) {
-    if (argv.s === 'trickle') {
+  if (argv.strategy) {
+    if (argv.strategy === 'trickle') {
       name = `${name}trickle`
       desc = `${desc}trickle`
       strategy = 'trickle'
@@ -62,27 +69,28 @@ const parseParams = () => {
       desc = `${desc}balanced`
     }
   } else {
-    if (argv.t === 'ws') {
+    if (argv.transport === 'ws') {
       name = `${name}ws_`
       desc = `${desc}websocket, `
     } else {
       name = `${name}tcp_`
       desc = `${desc}tcp, `
     }
-    if (argv.m === 'spdy') {
+    if (argv.muxer === 'spdy') {
       name = `${name}spdy`
       desc = `${desc}spdy`
     } else {
       name = `${name}mplex`
       desc = `${desc}mplex`
     }
-    if (argv.e === 'secio') {
+    if (argv.encryption === 'secio') {
       name = `${name}_secio`
       desc = `${desc}, secio`
     }
   }
   desc = `${desc})`
-  return { name: name, description: desc, strategy: strategy }
+  let target = argv.target
+  return { name, description: desc, strategy, target }
 }
 const config = {
   test: tests,

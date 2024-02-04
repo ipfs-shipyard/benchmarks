@@ -12,6 +12,7 @@ Install the required packages for your OS:
 * Ansible roles:
     * [geerlingguy.nodejs](https://github.com/geerlingguy/ansible-role-nodejs)
     * [nickjj.docker](https://github.com/nickjj/ansible-docker)
+    * [fubarhouse.golang](https://github.com/fubarhouse/ansible-role-golang) - `ansible-galaxy install fubarhouse.golang`
 
 A typical way to run the playbook would be:
 

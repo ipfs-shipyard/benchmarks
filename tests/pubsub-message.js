@@ -13,10 +13,10 @@ const promiseRetry = require('promise-retry')
  * @param {string} name - Name of the test used as sending results to the file with same name and data point in dashboard.
  * @param {boolean} warmup - Not implemented.
  * @param {string} fileSet - Describes file or list of files used for the test.
- * @param {string} version - Version of IPFS used in benchmark.
+ * @param {Object} meta - Metadata fields to return with result (eg. version, target)
  * @return {Promise<Object>} The data from the benchamrk
  */
-async function pubsubMessage (peerArray, name, warmup, fileSet, version) {
+async function pubsubMessage (peerArray, name, warmup, fileSet, meta) {
   const topic = 'ipfs-benchmark'
   const peerA = peerArray[0]
   const peerB = peerArray[1]
@@ -37,7 +37,7 @@ async function pubsubMessage (peerArray, name, warmup, fileSet, version) {
         name: 'pubsubMessage',
         warmup: warmup,
         file: 'none',
-        meta: { version: version },
+        meta: meta,
         description: 'Pubsub publish & receive a message.  js0 -> js1',
         file_set: 'none',
         duration: {

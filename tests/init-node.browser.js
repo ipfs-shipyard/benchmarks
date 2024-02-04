@@ -12,10 +12,10 @@ const run = require('./lib/runner')
  * @param {string} name - Name of the test used as sending results to the file with same name and data point in dashboard.
  * @param {boolean} warmup - Not implemented.
  * @param {string} fileSet - Describes file or list of files used for the test.
- * @param {string} version - Version of IPFS used in benchmark.
+ * @param {Object} meta - Metadata fields to return with result (eg. version, target)
  * @return {Promise<Object>} The data from the benchamrk
  */
-async function initializeNodeBrowser (node, name, warmup, fileSet, version) {
+async function initializeNodeBrowser (node, name, warmup, fileSet, meta) {
   const page = node[0].page
   await page.click('.initializeNode')
   const t = await page.waitFor('.initializeNode_s_ready')
@@ -26,7 +26,7 @@ async function initializeNodeBrowser (node, name, warmup, fileSet, version) {
     name: name,
     warmup: 'off',
     file: '',
-    meta: { version: version },
+    meta: meta,
     description: 'Node initialization (local) js0 -> js0',
     file_set: 'none',
     duration: { s: parseInt(timeS.split(':')[1]),

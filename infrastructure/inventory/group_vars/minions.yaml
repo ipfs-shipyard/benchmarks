@@ -7,4 +7,5 @@ remote_user: ubuntu
 # action_user_group: docker
 nodejs_version: "10"
 # docker__users: ["ubuntu", "runner"]
-go_ipfs_version: v0.4.10
+go_ipfs_version: v0.4.21
+go_version: 1.12.7
