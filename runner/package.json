@@ -15,7 +15,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "ajv": "^6.5.5",
+    "ajv": "^6.12.3",
     "compressing": "^1.4.0",
     "fastify": "^1.13.0",
     "fastify-swagger": "^1.1.1",
