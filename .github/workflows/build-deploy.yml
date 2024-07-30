@@ -1,0 +1,52 @@
+name: Build and Deploy to IPFS
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - github-actions
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '14.*'
+      - run: npm install
+        working-directory: runner
+      - run: npm install
+        working-directory: tests
+      - run: NODE_ENV=test npm test
+        working-directory: runner
+      - run: NODE_ENV=test npm test
+        working-directory: tests
+  deploy:
+    if: github.event_name == 'push'
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup ssh-agent
+        uses: webfactory/ssh-agent@dc588b651fe13675774614f8e6a936a468676387 # v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
+      - run: |
+          echo -e "Host *\n  User ubuntu\n  StrictHostKeyChecking no" >> ~/.ssh/config
+      - run: |
+          ANSIBLE_HOST_KEY_CHECKING=False \
+          ansible-playbook -i infrastructure/inventory/inventory.yaml \
+          infrastructure/playbooks/controller.yaml \
+          --skip-tags "prepare"
+      - run: |
+          ssh -o "StrictHostKeyChecking no" ubuntu@benchmarks.ipfs.team "echo $(date) > /data/ipfs-benchmarks/tests/deploy.txt"
+      - env:
+          APIKEY: ${{ secrets.BENCHMARKS_API_KEY }}
+        run: |
+          curl -XPOST -H "x-ipfs-benchmarks-api-key: $APIKEY" -k https://benchmarks.ipfs.team/runner/restart
